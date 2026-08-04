@@ -13,24 +13,27 @@ class CycleStepsRelationManager extends RelationManager
 {
     protected static string $relationship = 'cycleSteps';
 
-    protected static ?string $title = 'Cycle Steps';
+    public static function getTitle(\Illuminate\Database\Eloquent\Model $ownerRecord, string $pageClass): string
+    {
+        return __('admin.relation_managers.cycle_steps');
+    }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make('Translations')
+                Forms\Components\Tabs::make(__('admin.translations'))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('العربية')
                             ->schema([
                                 Forms\Components\TextInput::make('title.ar')
-                                    ->label('العنوان')
+                                    ->label(__('admin.fields.title'))
                                     ->required(),
                                 Forms\Components\Textarea::make('description.ar')
-                                    ->label('الوصف')
+                                    ->label(__('admin.fields.description'))
                                     ->rows(3),
                             ]),
-                        Forms\Components\Tabs\Tab::make('English (اختياري)')
+                        Forms\Components\Tabs\Tab::make(__('admin.english_optional'))
                             ->schema([
                                 Forms\Components\TextInput::make('title.en')
                                     ->label('Title'),
@@ -41,6 +44,7 @@ class CycleStepsRelationManager extends RelationManager
                     ])
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('sort_order')
+                    ->label(__('admin.fields.sort_order'))
                     ->numeric()
                     ->default(0),
             ]);
@@ -52,9 +56,10 @@ class CycleStepsRelationManager extends RelationManager
             ->recordTitleAttribute('title')
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label('العنوان')
+                    ->label(__('admin.fields.title'))
                     ->getStateUsing(fn (\App\Models\TrainingBagCycleStep $record): string => (string) $record->getTranslation('title', 'ar')),
                 Tables\Columns\TextColumn::make('sort_order')
+                    ->label(__('admin.fields.sort_order'))
                     ->sortable(),
             ])
             ->defaultSort('sort_order')

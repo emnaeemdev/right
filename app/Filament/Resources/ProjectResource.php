@@ -39,25 +39,25 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make('Translations')
+                Forms\Components\Tabs::make(__('admin.translations'))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('العربية')
                             ->schema([
                                 Forms\Components\TextInput::make('title.ar')
-                                    ->label('Title')
+                                    ->label(__('admin.fields.title'))
                                     ->required(),
                                 Forms\Components\Textarea::make('description.ar')
-                                    ->label('Description')
+                                    ->label(__('admin.fields.description'))
                                     ->rows(4),
                                 Forms\Components\TextInput::make('slug.ar')
-                                    ->label('Slug')
+                                    ->label(__('admin.fields.slug'))
                                     ->required(),
                             ]),
-                        Forms\Components\Tabs\Tab::make('English (اختياري)')
+                        Forms\Components\Tabs\Tab::make(__('admin.english_optional'))
                             ->schema([
                                 Forms\Components\Placeholder::make('en_hint')
                                     ->label('')
-                                    ->content('اترك الحقول فارغة إذا لا توجد ترجمة إنجليزية.'),
+                                    ->content(__('admin.english_optional_hint')),
                                 Forms\Components\TextInput::make('title.en')
                                     ->label('Title'),
                                 Forms\Components\Textarea::make('description.en')
@@ -68,18 +68,24 @@ class ProjectResource extends Resource
                             ]),
                     ])
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('client'),
-                Forms\Components\TextInput::make('field'),
+                Forms\Components\TextInput::make('client')
+                    ->label(__('admin.fields.client')),
+                Forms\Components\TextInput::make('field')
+                    ->label(__('admin.fields.field')),
                 Forms\Components\TextInput::make('year')
+                    ->label(__('admin.fields.year'))
                     ->numeric()
                     ->minValue(1900)
                     ->maxValue(2100),
                 Forms\Components\FileUpload::make('image')
+                    ->label(__('admin.fields.image'))
                     ->image()
                     ->disk('public')
                     ->directory('projects'),
-                Forms\Components\Toggle::make('is_featured'),
+                Forms\Components\Toggle::make('is_featured')
+                    ->label(__('admin.fields.is_featured')),
                 Forms\Components\Toggle::make('is_published')
+                    ->label(__('admin.fields.is_published'))
                     ->default(true),
             ]);
     }
@@ -89,17 +95,23 @@ class ProjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
+                    ->label(__('admin.fields.image'))
                     ->disk('public'),
                 Tables\Columns\TextColumn::make('title')
-                    ->label('العنوان')
+                    ->label(__('admin.fields.title'))
                     ->getStateUsing(fn (Project $record): string => (string) $record->getTranslation('title', 'ar')),
-                Tables\Columns\TextColumn::make('client'),
-                Tables\Columns\TextColumn::make('field'),
+                Tables\Columns\TextColumn::make('client')
+                    ->label(__('admin.fields.client')),
+                Tables\Columns\TextColumn::make('field')
+                    ->label(__('admin.fields.field')),
                 Tables\Columns\TextColumn::make('year')
+                    ->label(__('admin.fields.year'))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_featured')
+                    ->label(__('admin.fields.is_featured'))
                     ->boolean(),
                 Tables\Columns\IconColumn::make('is_published')
+                    ->label(__('admin.fields.is_published'))
                     ->boolean(),
             ])
             ->defaultSort('year', 'desc')

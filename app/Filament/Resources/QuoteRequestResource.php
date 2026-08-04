@@ -35,36 +35,37 @@ class QuoteRequestResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Submission Details')
+                Forms\Components\Section::make(__('admin.sections.submission_details'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label(__('admin.fields.name'))
                             ->disabled(),
                         Forms\Components\TextInput::make('organization')
+                            ->label(__('admin.fields.organization'))
                             ->disabled(),
                         Forms\Components\TextInput::make('email')
+                            ->label(__('admin.fields.email'))
                             ->disabled(),
                         Forms\Components\TextInput::make('phone')
+                            ->label(__('admin.fields.phone'))
                             ->disabled(),
                         Forms\Components\Select::make('training_bag_id')
-                            ->label('Training Bag')
+                            ->label(__('admin.fields.training_bag'))
                             ->relationship('trainingBag', 'title')
                             ->getOptionLabelFromRecordUsing(fn ($record): string => $record->getTranslation('title', 'ar'))
                             ->disabled(),
                         Forms\Components\Textarea::make('notes')
+                            ->label(__('admin.fields.notes'))
                             ->disabled()
                             ->rows(4)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
-                Forms\Components\Section::make('Admin')
+                Forms\Components\Section::make(__('admin.sections.admin'))
                     ->schema([
                         Forms\Components\Select::make('status')
-                            ->options([
-                                'new' => 'New',
-                                'contacted' => 'Contacted',
-                                'quoted' => 'Quoted',
-                                'closed' => 'Closed',
-                            ])
+                            ->label(__('admin.fields.status'))
+                            ->options(__('admin.statuses.quote'))
                             ->required(),
                     ]),
             ]);
@@ -75,16 +76,20 @@ class QuoteRequestResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.fields.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('admin.fields.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('trainingBag.title')
-                    ->label('الحقيبة التدريبية')
+                    ->label(__('admin.fields.training_bag'))
                     ->getStateUsing(fn (QuoteRequest $record): string => $record->trainingBag
                         ? (string) $record->trainingBag->getTranslation('title', 'ar')
                         : '—'),
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('admin.fields.status'))
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => __('admin.statuses.quote.' . $state))
                     ->color(fn (string $state): string => match ($state) {
                         'new' => 'danger',
                         'contacted' => 'warning',
@@ -93,18 +98,15 @@ class QuoteRequestResource extends Resource
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.fields.created_at'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->options([
-                        'new' => 'New',
-                        'contacted' => 'Contacted',
-                        'quoted' => 'Quoted',
-                        'closed' => 'Closed',
-                    ]),
+                    ->label(__('admin.fields.status'))
+                    ->options(__('admin.statuses.quote')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

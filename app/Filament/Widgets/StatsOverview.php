@@ -23,20 +23,24 @@ class StatsOverview extends BaseWidget
         $pendingInquiries = $pendingConsultations + $pendingQuotes + $unreadMessages;
 
         return [
-            Stat::make('Training Bags', TrainingBag::query()->count())
-                ->description('Total training bags')
+            Stat::make(__('admin.widgets.training_bags'), TrainingBag::query()->count())
+                ->description(__('admin.widgets.training_bags_desc'))
                 ->descriptionIcon('heroicon-m-academic-cap')
                 ->color('primary'),
-            Stat::make('Projects', Project::query()->count())
-                ->description('Total projects')
+            Stat::make(__('admin.widgets.projects'), Project::query()->count())
+                ->description(__('admin.widgets.projects_desc'))
                 ->descriptionIcon('heroicon-m-folder')
                 ->color('success'),
-            Stat::make('Experts', Expert::query()->count())
-                ->description('Total experts')
+            Stat::make(__('admin.widgets.experts'), Expert::query()->count())
+                ->description(__('admin.widgets.experts_desc'))
                 ->descriptionIcon('heroicon-m-user-group')
                 ->color('info'),
-            Stat::make('Pending Inquiries', $pendingInquiries)
-                ->description("{$pendingConsultations} consultations · {$pendingQuotes} quotes · {$unreadMessages} messages")
+            Stat::make(__('admin.widgets.pending_inquiries'), $pendingInquiries)
+                ->description(__('admin.widgets.pending_inquiries_desc', [
+                    'consultations' => $pendingConsultations,
+                    'quotes' => $pendingQuotes,
+                    'messages' => $unreadMessages,
+                ]))
                 ->descriptionIcon('heroicon-m-inbox')
                 ->color($pendingInquiries > 0 ? 'danger' : 'gray'),
         ];

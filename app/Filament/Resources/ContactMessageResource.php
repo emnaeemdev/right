@@ -35,24 +35,29 @@ class ContactMessageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Message')
+                Forms\Components\Section::make(__('admin.sections.message'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label(__('admin.fields.name'))
                             ->disabled(),
                         Forms\Components\TextInput::make('email')
+                            ->label(__('admin.fields.email'))
                             ->disabled(),
                         Forms\Components\TextInput::make('phone')
+                            ->label(__('admin.fields.phone'))
                             ->disabled(),
                         Forms\Components\TextInput::make('subject')
+                            ->label(__('admin.fields.subject'))
                             ->disabled(),
                         Forms\Components\Textarea::make('message')
+                            ->label(__('admin.fields.message'))
                             ->disabled()
                             ->rows(6)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
                 Forms\Components\Toggle::make('is_read')
-                    ->label('Mark as read'),
+                    ->label(__('admin.fields.mark_as_read')),
             ]);
     }
 
@@ -62,28 +67,34 @@ class ContactMessageResource extends Resource
             ->columns([
                 Tables\Columns\IconColumn::make('is_read')
                     ->boolean()
-                    ->label('Read'),
+                    ->label(__('admin.fields.read')),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.fields.name'))
                     ->searchable()
                     ->weight(fn (ContactMessage $record): ?\Filament\Support\Enums\FontWeight => $record->is_read ? null : \Filament\Support\Enums\FontWeight::Bold),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('admin.fields.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('subject')
+                    ->label(__('admin.fields.subject'))
                     ->limit(40)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.fields.created_at'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_read')
-                    ->label('Read status'),
+                    ->label(__('admin.fields.read_status')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('toggleRead')
-                    ->label(fn (ContactMessage $record): string => $record->is_read ? 'Mark unread' : 'Mark read')
+                    ->label(fn (ContactMessage $record): string => $record->is_read
+                        ? __('admin.fields.mark_unread')
+                        : __('admin.fields.mark_read'))
                     ->icon(fn (ContactMessage $record): string => $record->is_read ? 'heroicon-o-envelope' : 'heroicon-o-envelope-open')
                     ->action(fn (ContactMessage $record) => $record->update(['is_read' => ! $record->is_read])),
                 Tables\Actions\DeleteAction::make(),
@@ -91,7 +102,7 @@ class ContactMessageResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\BulkAction::make('markRead')
-                        ->label('Mark as read')
+                        ->label(__('admin.fields.mark_as_read'))
                         ->icon('heroicon-o-envelope-open')
                         ->action(fn ($records) => $records->each->update(['is_read' => true])),
                     Tables\Actions\DeleteBulkAction::make(),

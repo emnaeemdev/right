@@ -45,9 +45,17 @@ class DatabaseSeeder extends Seeder
             Role::firstOrCreate(['name' => $role, 'guard_name' => 'web']);
         }
 
+        $email = env('ADMIN_EMAIL', 'admin@right-center.org');
+        $password = env('ADMIN_PASSWORD');
+
+        if (! $password) {
+            $this->command?->warn('ADMIN_PASSWORD غير مضبوط في .env — لن يُنشأ حساب الأدمن.');
+            return;
+        }
+
         $admin = User::firstOrCreate(
-            ['email' => 'admin@right-center.org'],
-            ['name' => 'RIGHT Admin', 'password' => Hash::make('password')]
+            ['email' => $email],
+            ['name' => 'مدير رايت', 'password' => Hash::make($password)]
         );
         $admin->assignRole('super_admin');
     }

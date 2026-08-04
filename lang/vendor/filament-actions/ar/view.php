@@ -1,0 +1,17 @@
+<?php
+
+return [
+
+    'single' => [
+
+        'label' => 'عرض',
+
+        'modal' => [
+
+            'heading' => 'عرض :label',
+
+        ],
+
+    ],
+
+];

@@ -36,38 +36,41 @@ class ConsultationRequestResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Submission Details')
+                Forms\Components\Section::make(__('admin.sections.submission_details'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label(__('admin.fields.name'))
                             ->disabled(),
                         Forms\Components\TextInput::make('organization')
+                            ->label(__('admin.fields.organization'))
                             ->disabled(),
                         Forms\Components\TextInput::make('email')
+                            ->label(__('admin.fields.email'))
                             ->disabled(),
                         Forms\Components\TextInput::make('phone')
+                            ->label(__('admin.fields.phone'))
                             ->disabled(),
                         Forms\Components\TextInput::make('consultation_type')
+                            ->label(__('admin.fields.consultation_type'))
                             ->disabled(),
                         Forms\Components\Textarea::make('description')
+                            ->label(__('admin.fields.description'))
                             ->disabled()
                             ->rows(4)
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('budget_range')
+                            ->label(__('admin.fields.budget_range'))
                             ->disabled(),
                     ])
                     ->columns(2),
-                Forms\Components\Section::make('Admin')
+                Forms\Components\Section::make(__('admin.sections.admin'))
                     ->schema([
                         Forms\Components\Select::make('status')
-                            ->options([
-                                'new' => 'New',
-                                'assigned' => 'Assigned',
-                                'in_progress' => 'In Progress',
-                                'closed' => 'Closed',
-                            ])
+                            ->label(__('admin.fields.status'))
+                            ->options(__('admin.statuses.consultation'))
                             ->required(),
                         Forms\Components\Select::make('assigned_expert_id')
-                            ->label('Assigned Expert')
+                            ->label(__('admin.fields.assigned_expert'))
                             ->options(fn (): array => Expert::query()
                                 ->get()
                                 ->mapWithKeys(fn (Expert $expert): array => [
@@ -77,6 +80,7 @@ class ConsultationRequestResource extends Resource
                             ->searchable()
                             ->nullable(),
                         Forms\Components\Textarea::make('admin_notes')
+                            ->label(__('admin.fields.admin_notes'))
                             ->rows(4)
                             ->columnSpanFull(),
                     ])
@@ -89,13 +93,17 @@ class ConsultationRequestResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.fields.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('admin.fields.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('consultation_type')
-                    ->label('Type'),
+                    ->label(__('admin.fields.type')),
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('admin.fields.status'))
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => __('admin.statuses.consultation.' . $state))
                     ->color(fn (string $state): string => match ($state) {
                         'new' => 'danger',
                         'assigned' => 'warning',
@@ -104,23 +112,20 @@ class ConsultationRequestResource extends Resource
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('assignedExpert.name')
-                    ->label('الخبير')
+                    ->label(__('admin.fields.expert'))
                     ->getStateUsing(fn (ConsultationRequest $record): string => $record->assignedExpert
                         ? (string) $record->assignedExpert->getTranslation('name', 'ar')
                         : '—'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.fields.created_at'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->options([
-                        'new' => 'New',
-                        'assigned' => 'Assigned',
-                        'in_progress' => 'In Progress',
-                        'closed' => 'Closed',
-                    ]),
+                    ->label(__('admin.fields.status'))
+                    ->options(__('admin.statuses.consultation')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

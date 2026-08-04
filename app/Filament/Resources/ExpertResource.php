@@ -38,27 +38,27 @@ class ExpertResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make('Translations')
+                Forms\Components\Tabs::make(__('admin.translations'))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('العربية')
                             ->schema([
                                 Forms\Components\TextInput::make('name.ar')
-                                    ->label('الاسم')
+                                    ->label(__('admin.fields.name'))
                                     ->required(),
                                 Forms\Components\TextInput::make('title.ar')
-                                    ->label('Title'),
+                                    ->label(__('admin.fields.job_title')),
                                 Forms\Components\Textarea::make('bio.ar')
-                                    ->label('Bio')
+                                    ->label(__('admin.fields.description'))
                                     ->rows(4),
                                 Forms\Components\Textarea::make('specializations.ar')
-                                    ->label('Specializations')
+                                    ->label(__('admin.fields.specializations'))
                                     ->rows(3),
                             ]),
-                        Forms\Components\Tabs\Tab::make('English (اختياري)')
+                        Forms\Components\Tabs\Tab::make(__('admin.english_optional'))
                             ->schema([
                                 Forms\Components\Placeholder::make('en_hint')
                                     ->label('')
-                                    ->content('اترك الحقول فارغة إذا لا توجد ترجمة إنجليزية.'),
+                                    ->content(__('admin.english_optional_hint')),
                                 Forms\Components\TextInput::make('name.en')
                                     ->label('Name'),
                                 Forms\Components\TextInput::make('title.en')
@@ -73,15 +73,19 @@ class ExpertResource extends Resource
                     ])
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('photo')
+                    ->label(__('admin.fields.photo'))
                     ->image()
                     ->disk('public')
                     ->directory('experts'),
                 Forms\Components\TextInput::make('email')
+                    ->label(__('admin.fields.email'))
                     ->email(),
                 Forms\Components\TextInput::make('sort_order')
+                    ->label(__('admin.fields.sort_order'))
                     ->numeric()
                     ->default(0),
                 Forms\Components\Toggle::make('is_published')
+                    ->label(__('admin.fields.is_published'))
                     ->default(true),
             ]);
     }
@@ -91,17 +95,21 @@ class ExpertResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('photo')
+                    ->label(__('admin.fields.photo'))
                     ->disk('public'),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('الاسم')
+                    ->label(__('admin.fields.name'))
                     ->getStateUsing(fn (Expert $record): string => (string) $record->getTranslation('name', 'ar')),
                 Tables\Columns\TextColumn::make('title')
-                    ->label('المسمى')
+                    ->label(__('admin.fields.job_title'))
                     ->getStateUsing(fn (Expert $record): string => (string) $record->getTranslation('title', 'ar')),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('admin.fields.email')),
                 Tables\Columns\TextColumn::make('sort_order')
+                    ->label(__('admin.fields.sort_order'))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_published')
+                    ->label(__('admin.fields.is_published'))
                     ->boolean(),
             ])
             ->defaultSort('sort_order')

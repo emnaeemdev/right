@@ -38,19 +38,19 @@ class PartnerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make('Translations')
+                Forms\Components\Tabs::make(__('admin.translations'))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('العربية')
                             ->schema([
                                 Forms\Components\TextInput::make('name.ar')
-                                    ->label('اسم المؤسسة')
+                                    ->label(__('admin.fields.name'))
                                     ->required(),
                             ]),
-                        Forms\Components\Tabs\Tab::make('English (اختياري)')
+                        Forms\Components\Tabs\Tab::make(__('admin.english_optional'))
                             ->schema([
                                 Forms\Components\Placeholder::make('en_hint')
                                     ->label('')
-                                    ->content('اترك الحقل فارغاً إذا لا توجد ترجمة إنجليزية.'),
+                                    ->content(__('admin.english_optional_hint')),
                                 Forms\Components\TextInput::make('name.en')
                                     ->label('Name'),
                             ]),
@@ -65,7 +65,7 @@ class PartnerResource extends Resource
                     ->directory('partners')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('category')
-                    ->label('التصنيف')
+                    ->label(__('admin.fields.category'))
                     ->options([
                         'intl' => 'دولي',
                         'gov' => 'حكومي',
@@ -74,11 +74,14 @@ class PartnerResource extends Resource
                     ->required()
                     ->default('gov'),
                 Forms\Components\TextInput::make('website')
+                    ->label(__('admin.fields.website'))
                     ->url(),
                 Forms\Components\TextInput::make('sort_order')
+                    ->label(__('admin.fields.sort_order'))
                     ->numeric()
                     ->default(0),
                 Forms\Components\Toggle::make('is_published')
+                    ->label(__('admin.fields.is_published'))
                     ->default(true),
             ]);
     }
@@ -88,12 +91,13 @@ class PartnerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('logo')
+                    ->label(__('admin.fields.logo'))
                     ->disk('public'),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('الاسم')
+                    ->label(__('admin.fields.name'))
                     ->getStateUsing(fn (Partner $record): string => (string) $record->getTranslation('name', 'ar')),
                 Tables\Columns\TextColumn::make('category')
-                    ->label('التصنيف')
+                    ->label(__('admin.fields.category'))
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'intl' => 'دولي',
@@ -102,10 +106,13 @@ class PartnerResource extends Resource
                         default => $state,
                     }),
                 Tables\Columns\TextColumn::make('website')
+                    ->label(__('admin.fields.website'))
                     ->limit(30),
                 Tables\Columns\TextColumn::make('sort_order')
+                    ->label(__('admin.fields.sort_order'))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_published')
+                    ->label(__('admin.fields.is_published'))
                     ->boolean(),
             ])
             ->defaultSort('sort_order')
