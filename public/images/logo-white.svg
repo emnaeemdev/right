@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none" role="img" aria-label="RIGHT Center">
+  <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">RC</text>
+  <path d="M48 8 L56 20 L68 4" stroke="#4AB5B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="0" y="48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF">Right</text>
+  <line x1="0" y1="52" x2="60" y2="52" stroke="#349B9B" stroke-width="1"/>
+  <text x="0" y="58" font-family="Arial, Helvetica, sans-serif" font-size="6" fill="#FFFFFF" opacity="0.7">Consultancy | Research | Training</text>
+</svg>

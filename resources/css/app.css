@@ -1,0 +1,238 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --color-right-navy: #0A1D37;
+    --color-right-navy-light: #152A45;
+    --color-right-teal: #349B9B;
+    --color-right-teal-light: #4AB5B5;
+    --color-right-teal-muted: #E8F4F4;
+    --color-right-white: #FFFFFF;
+    --color-right-offwhite: #F7F9FA;
+    --color-right-gray: #6B7280;
+
+    --font-sans-ar: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+    --font-sans-en: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    html[dir="rtl"] {
+        font-family: var(--font-sans-ar);
+    }
+
+    html[dir="ltr"] {
+        font-family: var(--font-sans-en);
+    }
+
+    body {
+        @apply bg-right-white text-right-navy antialiased;
+    }
+}
+
+@layer components {
+    .section-divider {
+        @apply h-px w-full bg-right-teal/30;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-sm bg-right-teal px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-right-teal-light focus:outline-none focus:ring-2 focus:ring-right-teal focus:ring-offset-2;
+    }
+
+    .btn-outline {
+        @apply inline-flex items-center justify-center rounded-sm border border-right-teal px-6 py-3 text-sm font-medium text-right-teal transition-colors hover:bg-right-teal-muted focus:outline-none focus:ring-2 focus:ring-right-teal focus:ring-offset-2;
+    }
+
+    .section-title {
+        @apply text-3xl font-bold text-right-navy md:text-4xl;
+    }
+
+    .section-subtitle {
+        @apply mt-2 text-right-gray;
+    }
+
+    .pipe-separator {
+        @apply text-right-teal/60;
+    }
+
+    .check-bullet::before {
+        content: '✓';
+        @apply me-2 text-right-teal font-bold;
+    }
+
+    .reveal {
+        @apply opacity-0 translate-y-6;
+    }
+
+    .reveal-visible {
+        @apply opacity-100 translate-y-0 transition-all duration-700 ease-out;
+    }
+
+    .filter-bar {
+        @apply grid gap-4 rounded-sm border border-right-teal/15 bg-white p-4 sm:grid-cols-3;
+    }
+
+    .filter-item {
+        @apply flex flex-col gap-1.5;
+    }
+
+    .filter-label {
+        @apply text-xs font-semibold uppercase tracking-wide text-right-teal;
+    }
+
+    .filter-select {
+        @apply w-full appearance-none rounded-sm border border-right-teal/20 bg-right-offwhite px-4 py-2.5 text-sm text-right-navy transition focus:border-right-teal focus:bg-white focus:outline-none focus:ring-2 focus:ring-right-teal/20;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23349B9B'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: 1rem;
+        background-position: left 0.75rem center;
+        padding-inline-start: 2.5rem;
+    }
+
+    html[dir="ltr"] .filter-select {
+        background-position: right 0.75rem center;
+        padding-inline-start: 1rem;
+        padding-inline-end: 2.5rem;
+    }
+
+    .rich-content {
+        @apply max-w-none text-right-gray leading-relaxed;
+    }
+
+    .rich-content h2,
+    .rich-content h3 {
+        @apply mt-6 mb-3 text-xl font-bold text-right-navy;
+    }
+
+    .rich-content p {
+        @apply mb-4;
+    }
+
+    .rich-content a {
+        @apply text-right-teal underline;
+    }
+
+    .rich-content strong {
+        @apply font-semibold text-right-navy;
+    }
+
+    .rich-content ul {
+        @apply mb-4 list-none ps-0;
+    }
+
+    .rich-content ul li {
+        @apply mb-2;
+    }
+
+    .rich-content ul li::before {
+        content: '✓';
+        @apply me-2 text-right-teal font-bold;
+    }
+
+    .rich-content align-right,
+    .rich-content align-left,
+    .rich-content align-center,
+    .rich-content align-justify,
+    align-right,
+    align-left,
+    align-center,
+    align-justify {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .rich-content align-right:last-child,
+    .rich-content align-left:last-child,
+    .rich-content align-center:last-child,
+    .rich-content align-justify:last-child {
+        margin-bottom: 0;
+    }
+
+    .rich-content align-right p,
+    .rich-content align-left p,
+    .rich-content align-center p,
+    .rich-content align-justify p {
+        margin-bottom: 1rem;
+    }
+
+    .rich-content align-right p:last-child,
+    .rich-content align-left p:last-child,
+    .rich-content align-center p:last-child,
+    .rich-content align-justify p:last-child {
+        margin-bottom: 0;
+    }
+
+    .rich-content align-right,
+    align-right {
+        text-align: right;
+    }
+
+    .rich-content align-center,
+    align-center {
+        text-align: center;
+    }
+
+    .rich-content align-left,
+    align-left {
+        text-align: left;
+    }
+
+    .rich-content align-justify,
+    align-justify {
+        text-align: justify;
+    }
+
+    /* Legacy content saved with inline styles before custom align tags. */
+    .rich-content div[style*="text-align: right"],
+    .rich-content p[style*="text-align: right"] { text-align: right !important; }
+    .rich-content div[style*="text-align: center"],
+    .rich-content p[style*="text-align: center"] { text-align: center !important; }
+    .rich-content div[style*="text-align: left"],
+    .rich-content p[style*="text-align: left"] { text-align: left !important; }
+    .rich-content div[style*="text-align: justify"],
+    .rich-content p[style*="text-align: justify"] { text-align: justify !important; }
+
+    .activity-content-no-images img,
+    .activity-content-no-images figure {
+        @apply hidden;
+    }
+
+    .nav-link {
+        @apply text-white/80 hover:text-right-teal-light;
+    }
+
+    .nav-link-active {
+        @apply text-right-teal-light font-semibold;
+        box-shadow: inset 0 -2px 0 0 var(--color-right-teal-light);
+    }
+
+    .nav-dropdown-toggle.nav-link-active {
+        box-shadow: inset 0 -2px 0 0 var(--color-right-teal-light);
+    }
+
+    .content-tab {
+        @apply rounded-sm px-4 py-2 text-sm font-medium text-right-gray transition;
+    }
+
+    .content-tab.is-active {
+        @apply bg-right-teal text-white;
+    }
+
+    .content-tab:not(.is-active):hover {
+        @apply bg-right-teal-muted text-right-navy;
+    }
+
+    .nav-dropdown.is-open .nav-dropdown-menu,
+    .nav-dropdown.group:hover .nav-dropdown-menu {
+        @apply visible opacity-100 pointer-events-auto;
+    }
+
+    .nav-dropdown.is-open .nav-dropdown-chevron,
+    .nav-dropdown.group:hover .nav-dropdown-chevron {
+        @apply rotate-180;
+    }
+}
