@@ -5,4 +5,6 @@ return [
     'tagline' => 'Consultancy | Research | Training',
     'home' => 'الرئيسية',
     'meta_description' => 'مركز رايت للبحوث والاستشارات والتدريب — شريككم في التطوير المؤسسي القائم على الأدلة.',
+    'phone' => '+20 100 000 0000',
+    'whatsapp' => '+20 100 000 0000',
 ];

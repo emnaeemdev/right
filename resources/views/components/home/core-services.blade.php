@@ -1,18 +1,23 @@
-<section class="bg-right-offwhite py-20">
+<section class="bg-white py-20">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
-        <h2 class="section-title reveal">{{ __('nav.services') }}</h2>
-        <p class="section-subtitle reveal">{{ __('services.intro') }}</p>
+        <div class="reveal text-center">
+            <p class="section-kicker">{{ __('home.fields_kicker') }}</p>
+            <h2 class="section-title mt-2">{{ __('home.fields_title') }}</h2>
+            <p class="section-subtitle mx-auto max-w-2xl">{{ __('services.intro') }}</p>
+        </div>
 
-        <div class="mt-12 grid gap-4 md:grid-cols-4 md:grid-rows-2">
+        <div class="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
             @foreach($services as $i => $service)
-                <div @class([
-                    'reveal rounded-sm border border-right-teal/10 bg-white p-6 transition hover:border-right-teal/30 hover:shadow-sm',
-                    'md:col-span-2 md:row-span-2' => $i === 0,
-                    'md:col-span-2' => $i === 1,
-                ]) style="transition-delay: {{ $i * 80 }}ms">
-                    <span class="text-2xl font-bold text-right-teal">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                    <h3 class="mt-3 text-lg font-semibold text-right-navy">{{ $service->title }}</h3>
-                    <p class="mt-2 text-sm text-right-gray line-clamp-3">{{ $service->description }}</p>
+                <div class="service-card reveal flex min-h-[340px] flex-col p-8 lg:min-h-[380px] lg:p-10" style="transition-delay: {{ $i * 60 }}ms">
+                    <div class="icon-circle h-16 w-16 shrink-0">
+                        <span class="text-xl font-bold">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    </div>
+                    <h3 class="mt-6 text-xl font-bold text-right-navy lg:text-2xl">{{ $service->title }}</h3>
+                    <p class="mt-4 flex-1 text-base leading-relaxed text-right-gray line-clamp-5">{{ $service->description }}</p>
+                    <a href="{{ locale_route('services') }}" class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-right-teal transition hover:text-right-teal-light">
+                        {{ __('home.discover_more') }}
+                        <span aria-hidden="true">←</span>
+                    </a>
                 </div>
             @endforeach
         </div>

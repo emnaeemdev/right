@@ -67,10 +67,10 @@ class DatabaseSeeder extends Seeder
             'en' => 'RIGHT Center for Research, Consultancy & Training',
         ]);
         Setting::set('stats', [
-            'projects' => 50,
-            'experts' => 15,
-            'partners' => 30,
-            'training_bags' => 25,
+            'years' => 15,
+            'organizations' => 50,
+            'partners' => 10,
+            'experts' => 30,
         ]);
     }
 

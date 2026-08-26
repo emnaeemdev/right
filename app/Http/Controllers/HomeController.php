@@ -15,18 +15,22 @@ class HomeController extends Controller
     {
         $meta = $this->seoMeta('site.home', 'site.tagline');
 
+        $storedStats = Setting::get('stats', []);
+
+        $stats = [
+            'years' => (int) ($storedStats['years'] ?? 15),
+            'organizations' => (int) ($storedStats['organizations'] ?? $storedStats['projects'] ?? 50),
+            'partners' => (int) ($storedStats['partners'] ?? 10),
+            'experts' => (int) ($storedStats['experts'] ?? 30),
+        ];
+
         return view('pages.home', [
             'meta' => $meta,
             'services' => Service::published()->take(4)->get(),
-            'projects' => Project::published()->where('is_featured', true)->take(4)->get(),
-            'experts' => Expert::published()->take(6)->get(),
+            'projects' => Project::published()->where('is_featured', true)->take(3)->get(),
+            'experts' => Expert::published()->take(4)->get(),
             'partners' => Partner::published()->get(),
-            'stats' => Setting::get('stats', [
-                'projects' => 50,
-                'experts' => 15,
-                'partners' => 30,
-                'training_bags' => 25,
-            ]),
+            'stats' => $stats,
         ]);
     }
 }
